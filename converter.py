@@ -42,7 +42,19 @@ def render_converter():
                 
                 merger.append(archivo_dict)
                 
-                lista_archivos.sort(key=lambda x: x.name)
+                def orden_especifico(archivo):
+                    if "_l" in archivo.name: 
+                        return 1
+                    elif "_E2" in archivo.name: 
+                        return 2
+                    else: 
+                        return 3 
+                
+                lista_archivos.sort(key=orden_especifico)
+                
+                # 3. Agrega estrictamente los archivos que pertenecen a ESTE código
+                for arch in lista_archivos:
+                    merger.append(arch)
                 
                 for arch in lista_archivos:
                     merger.append(arch)
