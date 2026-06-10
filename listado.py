@@ -1,16 +1,13 @@
 import streamlit as st
-# 1. Importamos la nueva librería
 from streamlit_pdf_viewer import pdf_viewer
 
 def render_listado():
-    st.header("Ventana 2: Listado de Alumnos y Control de Expedientes")
+    st.header("Listado de Alumnos y Control de Expedientes")
 
-    # Verificar si hay datos procesados
     if not st.session_state.pdfs_procesados:
         st.info("Formato vacío. Primero debes subir y procesar los archivos en la ventana de 'Subida y Conversión'.")
         return
 
-    # Obtener y ordenar los códigos de los alumnos
     codigos_ordenados = sorted(st.session_state.pdfs_procesados.keys())
 
     st.write("### Alumnos Procesados")
@@ -49,19 +46,15 @@ def render_listado():
             )
         st.markdown("<hr style='margin:0.5em 0px;'>", unsafe_allow_html=True)
 
-    # --- NUEVA SECCIÓN DE VISTA PREVIA ---
     if st.session_state.alumno_preview:
         st.write("### 📄 Visor de Documento")
         codigo_sel = st.session_state.alumno_preview
         st.info(f"Mostrando vista previa del expediente integrado para el alumno: **{codigo_sel}**")
         
-        # Obtenemos los bytes directamente (sin convertirlos a base64)
         pdf_data = st.session_state.pdfs_procesados[codigo_sel]["bytes"]
         
-        # 2. Usamos el visor nativo pasándole los bytes directamente
         pdf_viewer(input=pdf_data, width=700)
         
-        # Botón para cerrar la vista previa
         if st.button("❌ Cerrar Vista Previa"):
             st.session_state.alumno_preview = None
             st.rerun()
