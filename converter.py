@@ -52,10 +52,6 @@ def render_converter():
                 
                 lista_archivos.sort(key=orden_especifico)
                 
-                # 3. Agrega estrictamente los archivos que pertenecen a ESTE código
-                for arch in lista_archivos:
-                    merger.append(arch)
-                
                 for arch in lista_archivos:
                     merger.append(arch)
                 
