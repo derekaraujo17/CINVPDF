@@ -9,8 +9,16 @@ if "pdfs_procesados" not in st.session_state:
 
 st.title("Unificación y Gestión de Expedientes PDF")
 
-ventana_actual = st.sidebar.radio("Navegación", ["1. Subida y Conversión", "2. Listado de Alumnos"])
-
+with st.sidebar:
+    st.header("Navegación")
+    
+    ventana_actual = st.radio(
+        "Ir a:",
+        ["1. Subida y Conversión", "2. Listado de Alumnos"],
+    )
+    
+    st.image("pibble_delfin.jpg")
+    
 if ventana_actual == "1. Subida y Conversión":
     render_converter()
 elif ventana_actual == "2. Listado de Alumnos":
