@@ -37,9 +37,12 @@ def render_listado():
             if st.button("👁️ Ver PDF", key=f"btn_prev_{codigo}"):
                 st.session_state.alumno_preview = codigo
         with c4:
+            with open(datos["ruta"], "rb") as f:
+                pdf_bytes_descarga = f.read()
+                
             st.download_button(
                 label="📥 Descargar",
-                data=datos["bytes"],
+                data=pdf_bytes_descarga,
                 file_name=f"Expediente_{codigo}.pdf",
                 mime="application/pdf",
                 key=f"btn_desc_{codigo}"
@@ -51,9 +54,11 @@ def render_listado():
         codigo_sel = st.session_state.alumno_preview
         st.info(f"Mostrando vista previa del expediente integrado para el alumno: **{codigo_sel}**")
         
-        pdf_data = st.session_state.pdfs_procesados[codigo_sel]["bytes"]
+        ruta_archivo_sel = st.session_state.pdfs_procesados[codigo_sel]["ruta"]
+        with open(ruta_archivo_sel, "rb") as f:
+            pdf_bytes_visor = f.read()
         
-        pdf_viewer(input=pdf_data, width=700)
+        pdf_viewer(input=pdf_bytes_visor, width=700)
         
         if st.button("❌ Cerrar Vista Previa"):
             st.session_state.alumno_preview = None

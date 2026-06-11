@@ -1,6 +1,7 @@
 import streamlit as st
 from pypdf import PdfWriter
-import io
+import tempfile
+import os
 
 def render_converter():
     st.header("Subida y Conversión de Archivos")
@@ -55,12 +56,12 @@ def render_converter():
                 for arch in lista_archivos:
                     merger.append(arch)
                 
-                pdf_bytes = io.BytesIO()
-                merger.write(pdf_bytes)
-                pdf_bytes.seek(0)
+                fd, ruta_temp = tempfile.mkstemp(suffix=".pdf", prefix=f"Expediente_{codigo}_")
+                with os.fdopen(fd,"wb") as f:
+                    merger.write(f)
                 
                 diccionario_resultados[codigo] = {
-                    "bytes": pdf_bytes.getvalue(),
+                    "ruta":ruta_temp,
                     "archivos_unidos": [a.name for a in lista_archivos]
                 }
             
