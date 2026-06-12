@@ -1,5 +1,6 @@
 import streamlit as st
 from streamlit_pdf_viewer import pdf_viewer
+from datetime import datetime
 
 def render_listado():
     st.header("Listado de Alumnos y Control de Expedientes")
@@ -39,11 +40,13 @@ def render_listado():
         with c4:
             with open(datos["ruta"], "rb") as f:
                 pdf_bytes_descarga = f.read()
-                
+
+            fecha_actual = datetime.now().strftime("%d-%m-%Y")
+
             st.download_button(
                 label="📥 Descargar",
                 data=pdf_bytes_descarga,
-                file_name=f"Expediente_{codigo}.pdf",
+                file_name=f"DELFIN_{codigo}_EXPEDIENTE_{fecha_actual}.pdf",
                 mime="application/pdf",
                 key=f"btn_desc_{codigo}"
             )
