@@ -6,6 +6,10 @@ st.set_page_config(page_title="Unificador de PDFs", layout="wide")
 
 if "pdfs_procesados" not in st.session_state:
     st.session_state.pdfs_procesados = {}
+if "archivos_base" not in st.session_state:
+    st.session_state.archivos_base = {}
+if "editando_alumno" not in st.session_state:
+    st.session_state.editando_alumno = None
 
 st.title("Unificación y Gestión de Expedientes PDF")
 
