@@ -109,6 +109,21 @@ def render_listado():
                 )
 
         with col_visor:
+            st.markdown("""
+                <style>
+                    /* Cubrimos ambas etiquetas internas de Streamlit y forzamos la prioridad */
+                    div[data-testid="stColumn"]:has(#visor-flotante),
+                    div[data-testid="column"]:has(#visor-flotante) {
+                        position: -webkit-sticky !important;
+                        position: sticky !important;
+                        top: 70px !important; 
+                        align-self: flex-start !important; 
+                        z-index: 999 !important;
+                    }
+                </style>
+                <div id="visor-flotante"></div>
+            """, unsafe_allow_html=True)
+
             if "hoja_preview" in st.session_state and st.session_state.hoja_preview:
                 pag = st.session_state.hoja_preview
                 st.info(f"Vista Previa: **{pag['archivo']}** - Hoja {pag['pagina_idx'] + 1}")
@@ -121,7 +136,12 @@ def render_listado():
                 pdf_bytes = io.BytesIO()
                 writer.write(pdf_bytes)
                 
-                pdf_viewer(input=pdf_bytes.getvalue(), width=500)
+                pdf_viewer(
+                    input=pdf_bytes.getvalue(), 
+                    width=500,
+                    height=650,     
+                    zoom_level=2.0  
+                )
         
         return 
 
