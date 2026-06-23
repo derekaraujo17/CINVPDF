@@ -140,7 +140,7 @@ def render_listado():
                     input=pdf_bytes.getvalue(), 
                     width=500,
                     height=650,     
-                    zoom_level=2.0  
+                    zoom_level=0.75  
                 )
         
         return 
