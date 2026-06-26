@@ -1,3 +1,7 @@
 streamlit
 pypdf
 streamlit-pdf-viewer
+pytesseract
+pdf2image
+thefuzz
+Pillow

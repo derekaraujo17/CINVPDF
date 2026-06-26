@@ -3,7 +3,8 @@ from streamlit_pdf_viewer import pdf_viewer
 from datetime import datetime
 import io
 from pypdf import PdfReader, PdfWriter
-from converter import generar_pdf_desde_blueprint 
+from converter import generar_pdf_desde_blueprint
+from agente_ocr import auto_acomodar_blueprint
 
 # --- FUNCIONES CALLBACK OPTIMIZADAS (Con versionado) ---
 def cambiar_posicion(codigo, index_actual, id_unica):
@@ -59,8 +60,16 @@ def render_listado():
         col_lista, col_visor = st.columns([1.2, 1])
 
         with col_lista:
+            if st.button("Auto-Acomodar con Reconocimiento Óptico", type="primary"):
+                with st.spinner("Se están leyendo y deduciendo las hojas... Esto tomará unos cuantos segundos."):
+                    nuevo_bp = auto_acomodar_blueprint(blueprint, st.session_state.archivos_base)
+                    st.session_state.pdfs_procesados[codigo]["blueprint"] = nuevo_bp
+                    
+                    # Limpiamos cachés visuales para que se redibuje
+                    st.session_state[f"v_{codigo}"] = st.session_state.get(f"v_{codigo}", 0) + 1
+                    st.rerun()
             st.write("**Orden actual del documento:**")
-            
+
             for i, pag in enumerate(blueprint):
                 c1, c2, c3, c4 = st.columns([5, 2, 1, 2])
                 
